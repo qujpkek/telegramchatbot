@@ -2,7 +2,7 @@ from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 import telebot
 
 
-bot = telebot.TeleBot(token='7411941828:AAGB81yK24ol0Nhc43J68U1XylVJQl7uqSo')
+bot = telebot.TeleBot(token='token')
 
 @bot.message_handler(commands=["start"])
 def start(message):
