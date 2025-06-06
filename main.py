@@ -1,17 +1,27 @@
-from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 import telebot
+import random
+import os
 
-
-bot = telebot.TeleBot(token='token')
+bot = telebot.TeleBot("token")
+memes = os.listdir("pictures")
 
 @bot.message_handler(commands=["start"])
-def start(message):
-    bot.reply_to(message, "Это тест приложение для мини приложений")
+def send_welcome(message):
+    bot.reply_to(message, "Привет! Я твой Telegram бот. Напиши что-нибудь!")
 
-@bot.message_handler(commands=["start_miniapp"])
-def start_miniapp(message):
-    inline_keyboard_markup = InlineKeyboardMarkup()
-    inline_keyboard_markup.row(InlineKeyboardButton("Запустить приложение", web_app=WebAppInfo("https://www.youtube.com/")))
-    bot.reply_to(message, "Запусти приложение по кнопке снизу", reply_markup=inline_keyboard_markup)
+@bot.message_handler(commands=["meme"])
+def send_pictures(message):
+    with open(f"pictures/{random.choice(memes)}", 'rb') as f:
+        bot.send_photo(message.chat.id, f)
+
+@bot.message_handler(commands=["animals"])
+def send_pictures(message):
+    while True:
+        meme = random.choice(memes)
+        if 'animal' in meme:
+            break
+    
+    with open(f"pictures/{meme}", 'rb') as f:
+        bot.send_photo(message.chat.id, f)
 
 bot.polling()
